@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { createMaze } from '../utils/createMaze.js'
 const Direction = {
   Top: 0,
   Right: 1,
@@ -22,14 +23,17 @@ interface Block {
 
 const mapSize = { width: 20, height: 20 }
 const blockSize = { width: 30, height: 30 }
-const initBlocks = (): Block[] => Array.from({ length: mapSize.width * mapSize.height }).map((_, index) => ({
-  x: (index + 1) % mapSize.width,
-  y: Math.floor((index + 1) / mapSize.width) + 1,
-  color: '#000',
-  wall: Array.from({ length: 4 }, () => true),
-}))
 
-const blocks = reactive<Block[]>(initBlocks())
+// const initBlocks = (): Block[] => Array.from({ length: mapSize.width * mapSize.height }).map((_, index) => ({
+//   x: (index + 1) % mapSize.width,
+//   y: Math.floor((index + 1) / mapSize.width) + 1,
+//   color: '#000',
+//   wall: Array.from({ length: 4 }, () => true),
+// }))
+
+// const blocks = reactive<Block[]>(initBlocks())
+
+const blocks = reactive<Block[]>(createMaze(mapSize))
 const getBlock = (coord: { x: number; y: number }): Block => blocks[coord.x - 1 + (coord.y - 1) * mapSize.width]
 const start = reactive({ x: 1, y: 1 })
 
